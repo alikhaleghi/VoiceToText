@@ -19,6 +19,7 @@ def speak(text):
   engine.runAndWait()
 
 def listen(): 
+  config.read('config.ini') 
 
   """Captures audio from microphone until a key is pressed"""
   with sr.Microphone() as source:
