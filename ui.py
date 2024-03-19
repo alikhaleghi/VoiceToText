@@ -73,7 +73,26 @@ def main(page: ft.Page):
     if text:
       whatISaid.value = text
       whatISaid.label = 'What You Said:' if whatISaid.value else 'Please click Start listening and talk.'
+      
       add_history(text)
+      history.controls.insert(0,ft.Dismissible(
+        content=ft.ListTile(title=ft.Text(f"Item {text}")),
+        dismiss_direction=ft.DismissDirection.HORIZONTAL,
+        background=ft.Container(bgcolor=ft.colors.GREEN),
+        secondary_background=ft.Container(bgcolor=ft.colors.RED),
+        on_dismiss=handle_dismiss, 
+        on_update=handle_update,
+        on_confirm_dismiss=handle_confirm_dismiss,
+        dismiss_thresholds={
+          ft.DismissDirection.END_TO_START: 0.2,
+          ft.DismissDirection.START_TO_END: 0.2,
+        },
+      ))
+
+      
+
+      page.update()
+
       if(config.get('Settings', 'autocopy') == 'active'):
         pyperclip.copy(text)
         print("Text copied to clipboard!")
@@ -107,7 +126,6 @@ def main(page: ft.Page):
 
   c1 = ft.Switch(label="AutoCopy",on_change=set_auto_copy, value=True if config.get('Settings', 'autocopy') == 'active' else False)
 
-  page.window_height, page.window_width = 500, 400
 
   def close_yes_dlg(e):
     page.close_dialog()
@@ -142,9 +160,10 @@ def main(page: ft.Page):
 
   def handle_update(e: ft.DismissibleUpdateEvent):
     print(f"Update - direction: {e.direction}, progress: {e.progress}, reached: {e.reached}, previous_reached: {e.previous_reached}")
-  items = None
-  def realHistory(): 
-    return ft.ListView(
+  
+  items = get_history()
+  page.update()
+  history = ft.ListView(
     controls=[
       ft.Dismissible(
         content=ft.ListTile(title=ft.Text(f"Item {i}")),
@@ -159,18 +178,18 @@ def main(page: ft.Page):
           ft.DismissDirection.START_TO_END: 0.2,
         },
       )
-      for i in get_history()
+      for i in items
     ],
     expand=True,
-  )
-  
-  
-  def updateTabs(e):
+  ) 
+  def updateTabs(e): 
     page.update()
+
+  # page itself
   t = ft.Tabs(
     on_change=updateTabs,
     selected_index=0,
-    animation_duration=300,
+    animation_duration=500,
     tabs=[
       ft.Tab(
         text="Transcribe",
@@ -203,7 +222,7 @@ def main(page: ft.Page):
       ),
       ft.Tab(
         tab_content=ft.Text("History"),
-        content= realHistory()
+        content= history
       ),
       ft.Tab(
         text="Setting",
@@ -215,21 +234,5 @@ def main(page: ft.Page):
   )
 
   page.add(t)
-  
-
-
-  # page.add(ft.Row([
-  #     ft.Container(expand=4, content=dd),
-  # ]))
-  # page.add(
-  #     ft.Divider(height=35),
-  #     whatISaid
-  # )
-  # page.add(
-  #     ft.Divider(height=35),
-  #     ,
-  #     ft.Row([
-  # ]))
-
 
 ft.app(target=main)
