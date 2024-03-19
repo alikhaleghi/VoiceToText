@@ -3,3 +3,4 @@ build
 stable
 dist
 config.ini
+history.sqlite
