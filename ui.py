@@ -14,6 +14,7 @@ def main(page: ft.Page):
   page.title = "Voice To Text (AK)"
   page.window_width = 400
   page.window_height = 600
+  page.window_always_on_top = True
   page.window_resizable = False
   # page.window_frameless = True
   page.window_maximizable = False
@@ -63,18 +64,19 @@ def main(page: ft.Page):
   def startRecording(e):
     page.splash = ft.ProgressBar()
     btn.disabled = True
+    btn.text = "Listening..."
+    
     page.update()
     text = listen()
     page.update()
     # sleep(1)
-    
-    print(text)
     
     if text:
       whatISaid.value = text
       whatISaid.label = 'What You Said:' if whatISaid.value else 'Please click Start listening and talk.'
       
       add_history(text)
+
       history.controls.insert(0,ft.Dismissible(
         content=ft.ListTile(title=ft.Text(f"Item {text}")),
         dismiss_direction=ft.DismissDirection.HORIZONTAL,
@@ -89,8 +91,6 @@ def main(page: ft.Page):
         },
       ))
 
-      
-
       page.update()
 
       if(config.get('Settings', 'autocopy') == 'active'):
@@ -98,10 +98,11 @@ def main(page: ft.Page):
         print("Text copied to clipboard!")
     
     page.splash = None
+    btn.text = "Start Listening..."
     btn.disabled = False
-    page.update()
-
-  btn = ft.FilledButton("Start Listening!", on_click=startRecording)
+    page.update() 
+ 
+  btn = ft.FilledButton(('Start Listening!'),  on_click=startRecording)
 
   dd = ft.Dropdown( 
     label="Language",
@@ -193,6 +194,7 @@ def main(page: ft.Page):
     tabs=[
       ft.Tab(
         text="Transcribe",
+        icon=ft.icons.MIC,
         content=ft.Container(
           padding=10,
           content=ft.Column([
@@ -221,7 +223,8 @@ def main(page: ft.Page):
         ),
       ),
       ft.Tab(
-        tab_content=ft.Text("History"),
+        icon=ft.icons.HISTORY,
+        text="History",
         content= history
       ),
       ft.Tab(
