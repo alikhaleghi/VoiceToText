@@ -19,6 +19,16 @@ def get_history():
 # Add History
 def add_history(text):
     conn = connect()
-    conn.execute("insert into messages values(?,?)",(None, text,))
+    cur = conn.execute("insert into messages values(?,?)",(None, text,))
+    conn.commit()
+    id = cur.lastrowid
+    conn.close()
+
+    return id
+
+# Delete History
+def delete_history(id):
+    conn = connect()
+    conn.execute("DELETE FROM messages WHERE `id` = ?",( id,))
     conn.commit()
     conn.close()
