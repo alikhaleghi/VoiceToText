@@ -13,6 +13,7 @@ if not config.has_section('Settings'):
 
 # Set default values (using older syntax)
 defaults = {
+  'locale' : 'fa',
   'alwaysontop' : 'no',
   'autocopy' : 'no',
   'language' : 'fa-IR',

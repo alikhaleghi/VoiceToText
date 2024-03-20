@@ -6,7 +6,7 @@ import flet as ft
 from flet import Theme
 import pyperclip
 import gettext
-el = gettext.translation('base', localedir='./lang', languages=['fa'])
+el = gettext.translation('base', localedir='./lang', languages=[config.get('Settings', 'locale')])
 el.install()
 _ = el.gettext
 # import pyi_splash 
@@ -25,6 +25,9 @@ def main(page: ft.Page):
   page.window_height = 600
   if(config.get('Settings', 'alwaysontop') == 'active'):
     page.window_always_on_top = True
+  if(config.get('Settings', 'locale') == 'fa')
+    page.rtl = True
+    
   page.window_resizable = False
   # page.window_frameless = True
   page.window_maximizable = False
