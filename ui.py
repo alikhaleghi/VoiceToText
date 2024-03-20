@@ -25,9 +25,9 @@ def main(page: ft.Page):
   page.window_height = 600
   if(config.get('Settings', 'alwaysontop') == 'active'):
     page.window_always_on_top = True
-  if(config.get('Settings', 'locale') == 'fa')
+  if(config.get('Settings', 'locale') == 'fa'):
     page.rtl = True
-    
+
   page.window_resizable = False
   # page.window_frameless = True
   page.window_maximizable = False
@@ -64,6 +64,14 @@ def main(page: ft.Page):
   def set_on_top(e):
     config.set('Settings', 'alwaysontop', 'active' if AlwaysOnTopCheck.value else 'no')
     page.window_always_on_top = AlwaysOnTopCheck.value
+    saveSetting()
+    page.update()
+  def set_locale(e):
+    final = None
+    if(locale.value == 'English'): final = 'en'
+    if(locale.value == 'Farsi'): final = 'fa'
+    if(final == None): final = 'fa'
+    config.set('Settings', 'locale', final)
     saveSetting()
     page.update()
   def set_lang(e):
@@ -229,6 +237,18 @@ def main(page: ft.Page):
     
   )
 
+  localeContainer = ft.Container(
+    locale := ft.Dropdown( 
+      label=_("Language"),
+      options=[
+        ft.dropdown.Option("Persian"),
+        ft.dropdown.Option("English"), 
+      ],
+      on_change=set_locale
+    ),
+    padding=20,
+  )
+
 
   def updateTabs(e): 
     page.update()
@@ -274,18 +294,7 @@ def main(page: ft.Page):
         text=_("Setting"),
         icon=ft.icons.SETTINGS,
         content=ft.Column([
-          ft.Container(
-            ft.Dropdown( 
-              label=_("Language"),
-              options=[
-                ft.dropdown.Option("fa-IR"),
-                ft.dropdown.Option("en-US"),
-                ft.dropdown.Option("es-AR"),
-              ],
-              on_change=set_lang
-            ),
-            padding=20,
-          ),
+          localeContainer,
           AlwaysOnTop,
           AutoCopy,
           ThemeMode
