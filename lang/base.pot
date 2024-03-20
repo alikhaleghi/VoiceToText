@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2024-03-20 06:22+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1252\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: ui.py:17
+msgid "Voice To Text (AK)"
+msgstr ""
+
+#: ui.py:76
+msgid "Listening..."
+msgstr ""
+
+#: ui.py:85 ui.py:135
+msgid "Please click Start listening and talk."
+msgstr ""
+
+#: ui.py:85 ui.py:135
+msgid "What You Said:"
+msgstr ""
+
+#: ui.py:110 ui.py:114
+msgid "Start Listening..."
+msgstr ""
+
+#: ui.py:149
+msgid "Please confirm"
+msgstr ""
+
+#: ui.py:150
+msgid "Do you really want to delete this item?"
+msgstr ""
+
+#: ui.py:152
+msgid "Yes"
+msgstr ""
+
+#: ui.py:153
+msgid "No"
+msgstr ""
+
+#: ui.py:208
+msgid "On-Top"
+msgstr ""
+
+#: ui.py:209
+msgid "Keep app Always On Top."
+msgstr ""
+
+#: ui.py:213
+msgid "Auto-Copy"
+msgstr ""
+
+#: ui.py:214
+msgid "Whether or not to auto-copy messages."
+msgstr ""
+
+#: ui.py:218
+msgid "Night-Mode"
+msgstr ""
+
+#: ui.py:219
+msgid "Use the Dark Theme."
+msgstr ""
+
+#: ui.py:234
+msgid "Transcribe"
+msgstr ""
+
+#: ui.py:261
+msgid "History"
+msgstr ""
+
+#: ui.py:265
+msgid "Setting"
+msgstr ""
+
+#: ui.py:270
+msgid "Language"
+msgstr ""
+
