@@ -6,13 +6,16 @@ import flet as ft
 from flet import Theme
 import pyperclip
 import gettext
+import speech_recognition as sr
+
 el = gettext.translation('base', localedir='./lang', languages=[config.get('Settings', 'locale')])
 el.install()
 _ = el.gettext
-# import pyi_splash 
-# pyi_splash.update_text("PyInstaller is a great software!")
-# pyi_splash.update_text("Second time's a charm!") 
-# pyi_splash.close()
+
+import pyi_splash 
+pyi_splash.update_text("PyInstaller is a great software!")
+pyi_splash.update_text("Second time's a charm!") 
+pyi_splash.close()
 
 def main(page: ft.Page):
   page.fonts = {
@@ -73,6 +76,12 @@ def main(page: ft.Page):
     if(final == None): final = 'fa'
     config.set('Settings', 'locale', final)
     saveSetting()
+
+    page.snack_bar = ft.SnackBar(
+        content=ft.Text(_("You need to restart the app for language to change!")),
+        action=_("Alright!"),
+    )
+    page.snack_bar.open = True
     page.update()
   def set_lang(e):
     config.set('Settings', 'language', dd.value)
@@ -93,35 +102,52 @@ def main(page: ft.Page):
     btn.text = _("Listening...")
     
     page.update()
-    text = listen()
+    try:
+      text = listen()
+
+      if text:
+        whatISaid.value = text
+        whatISaid.label = _('What You Said:') if whatISaid.value else _('Please click Start listening and talk.')
+        
+        id = add_history(text)
+
+        history.controls.insert(0,ft.Dismissible(
+          content=ft.ListTile(data=id, title=ft.Text(f"{text}")),
+          dismiss_direction=ft.DismissDirection.HORIZONTAL,
+          background=ft.Container(bgcolor=ft.colors.GREEN),
+          secondary_background=ft.Container(bgcolor=ft.colors.RED),
+          on_dismiss=handle_dismiss, 
+          on_update=handle_update,
+          on_confirm_dismiss=handle_confirm_dismiss,
+          dismiss_thresholds={
+            ft.DismissDirection.END_TO_START: 0.2,
+            ft.DismissDirection.START_TO_END: 0.2,
+          },
+        ))
+
+        page.update()
+
+        if(config.get('Settings', 'autocopy') == 'active'):
+          pyperclip.copy(text)
+          
+          page.snack_bar = ft.SnackBar(
+              content=ft.Text(_("Text copied to clipboard.")),
+              action=_("Alright!"),
+          )
+          page.snack_bar.open = True
+
+    except sr.UnknownValueError: 
+      page.snack_bar = ft.SnackBar(
+          content=ft.Text(_("Could not understand audio!")),
+          action=_("Alright!"),
+      )
+      page.snack_bar.open = True
+    except sr.RequestError as e:
+      print("Could not request results from Google Speech Recognition service; {0}".format(e))
+    
     page.update()
     # sleep(1)
     
-    if text:
-      whatISaid.value = text
-      whatISaid.label = _('What You Said:') if whatISaid.value else _('Please click Start listening and talk.')
-      
-      id = add_history(text)
-
-      history.controls.insert(0,ft.Dismissible(
-        content=ft.ListTile(data=id, title=ft.Text(f"{text}")),
-        dismiss_direction=ft.DismissDirection.HORIZONTAL,
-        background=ft.Container(bgcolor=ft.colors.GREEN),
-        secondary_background=ft.Container(bgcolor=ft.colors.RED),
-        on_dismiss=handle_dismiss, 
-        on_update=handle_update,
-        on_confirm_dismiss=handle_confirm_dismiss,
-        dismiss_thresholds={
-          ft.DismissDirection.END_TO_START: 0.2,
-          ft.DismissDirection.START_TO_END: 0.2,
-        },
-      ))
-
-      page.update()
-
-      if(config.get('Settings', 'autocopy') == 'active'):
-        pyperclip.copy(text)
-        print("Text copied to clipboard!")
     
     page.splash = None
     btn.text = _("Start Listening...")
@@ -131,7 +157,7 @@ def main(page: ft.Page):
   btn = ft.FilledButton(_("Start Listening..."),  on_click=startRecording)
 
   dd = ft.Dropdown( 
-    label="Language",
+    label=_("Language"),
     options=[
       ft.dropdown.Option("fa-IR"),
       ft.dropdown.Option("en-US"),
@@ -149,9 +175,7 @@ def main(page: ft.Page):
     # value=config.get('Settings', "language"),
   )
 
-  whatISaid.label = _('What You Said:') if whatISaid.value else _('Please click Start listening and talk.')
-
-
+  whatISaid.label = _('What You Said:') if whatISaid.value else _('Please click Start listening and talk.') 
 
   def close_yes_dlg(e):
     page.close_dialog()
@@ -180,6 +204,15 @@ def main(page: ft.Page):
       page.show_dialog(dlg)
     else: # left-to-right slide
       e.control.confirm_dismiss(True)
+  
+      pyperclip.copy(e.control.content.title.value)
+      
+      page.snack_bar = ft.SnackBar(
+          content=ft.Text(_("Text copied to clipboard.")),
+          action=_("Alright!"),
+      )
+      page.snack_bar.open = True
+      page.update()
 
   def handle_dismiss(e):
     if(dlg.data):
@@ -189,8 +222,8 @@ def main(page: ft.Page):
       
       history.controls.remove(e.control)
       dlg.data = None
-      page.update() 
-
+      page.update()  
+      
   def handle_update(e: ft.DismissibleUpdateEvent):
     e
     # print(f"Update - direction: {e.direction}, progress: {e.progress}, reached: {e.reached}, previous_reached: {e.previous_reached}")
