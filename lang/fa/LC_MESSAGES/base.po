@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-03-20 06:18+0330\n"
-"PO-Revision-Date: 2024-03-20 06:22+0330\n"
+"POT-Creation-Date: 2024-03-20 07:36+0330\n"
+"PO-Revision-Date: 2024-03-20 07:42+0330\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fa\n"
@@ -16,78 +16,86 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "X-Generator: Poedit 3.4.2\n"
 
-#: ui.py:17
+#: ui.py:25
 msgid "Voice To Text (AK)"
 msgstr "تبدیل صدا به متن"
 
-#: ui.py:76
+#: ui.py:95
 msgid "Listening..."
-msgstr "درحال شنیدن"
+msgstr "درحال شنیدن..."
 
-#: ui.py:85 ui.py:135
+#: ui.py:103 ui.py:166
 msgid "Please click Start listening and talk."
 msgstr "لطفا روی شروع شنیدن کلیک کرده و شروع به حرف زدن کنید."
 
-#: ui.py:85 ui.py:135
+#: ui.py:103 ui.py:166
 msgid "What You Said:"
 msgstr "شما گفتید:"
 
-#: ui.py:110 ui.py:114
-msgid "Start Listening..."
-msgstr "شروع کن به گوش دادن..."
+#: ui.py:129
+msgid "Could not understand audio!"
+msgstr "متوجه نشدم چی گفتی!"
 
-#: ui.py:149
+#: ui.py:130
+msgid "Alright!"
+msgstr "باشه!"
+
+#: ui.py:141 ui.py:145
+msgid "Start Listening..."
+msgstr "شروع ضبط صدا..."
+
+#: ui.py:180
 msgid "Please confirm"
 msgstr "لطفا تائید کنید"
 
-#: ui.py:150
+#: ui.py:181
 msgid "Do you really want to delete this item?"
 msgstr "آیا شما واقعا میخواهید این مورد را حذف کنید؟"
 
-#: ui.py:152
+#: ui.py:183
 msgid "Yes"
 msgstr "بله"
 
-#: ui.py:153
+#: ui.py:184
 msgid "No"
 msgstr "خیر"
 
-#: ui.py:208
+#: ui.py:239
 msgid "On-Top"
 msgstr "همیشه روی صفحه"
 
-#: ui.py:209
+#: ui.py:240
 msgid "Keep app Always On Top."
-msgstr "بصورت همیشگی روی همه صفحه ها نمایش دهد"
+msgstr "بصورت همیشگی روی همه صفحه ها نمایش دهد."
 
-#: ui.py:213
+#: ui.py:244
 msgid "Auto-Copy"
 msgstr "کپی خودکار"
 
-#: ui.py:214
+#: ui.py:245
 msgid "Whether or not to auto-copy messages."
-msgstr "بعد از تولید متن از گفته های شما بصورت خودکار کپی شود"
+msgstr "بعد از تولید متن از گفته های شما بصورت خودکار کپی شود."
 
-#: ui.py:218
+#: ui.py:249
 msgid "Night-Mode"
 msgstr "حالت شب"
 
-#: ui.py:219
+#: ui.py:250
 msgid "Use the Dark Theme."
-msgstr "استفاده از تم تاریک"
+msgstr "استفاده از تم تاریک."
 
-#: ui.py:234
+#: ui.py:256
+msgid "Language"
+msgstr "زبان"
+
+#: ui.py:277
 msgid "Transcribe"
 msgstr "تولید متن"
 
-#: ui.py:261
+#: ui.py:304
 msgid "History"
 msgstr "گذارش"
 
-#: ui.py:265
+#: ui.py:308
 msgid "Setting"
 msgstr "تنظیمات"
-
-#: ui.py:270
-msgid "Language"
-msgstr "زبان"

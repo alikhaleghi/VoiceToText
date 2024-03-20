@@ -2,11 +2,12 @@
 # Copyright (C) YEAR ORGANIZATION
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-03-20 06:22+0330\n"
-"PO-Revision-Date: 2024-03-20 07:14+0330\n"
+"POT-Creation-Date: 2024-03-20 07:36+0330\n"
+"PO-Revision-Date: 2024-03-20 07:45+0330\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -16,78 +17,86 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "X-Generator: Poedit 3.4.2\n"
 
-#: ui.py:17
+#: ui.py:25
 msgid "Voice To Text (AK)"
 msgstr "Voice To Text (AK)"
 
-#: ui.py:76
+#: ui.py:95
 msgid "Listening..."
 msgstr "Listening..."
 
-#: ui.py:85 ui.py:135
+#: ui.py:103 ui.py:166
 msgid "Please click Start listening and talk."
 msgstr "Please click Start listening and talk."
 
-#: ui.py:85 ui.py:135
+#: ui.py:103 ui.py:166
 msgid "What You Said:"
 msgstr "What You Said:"
 
-#: ui.py:110 ui.py:114
+#: ui.py:129
+msgid "Could not understand audio!"
+msgstr "Could not understand audio!"
+
+#: ui.py:130
+msgid "Alright!"
+msgstr "Alright!"
+
+#: ui.py:141 ui.py:145
 msgid "Start Listening..."
 msgstr "Start Listening..."
 
-#: ui.py:149
+#: ui.py:180
 msgid "Please confirm"
 msgstr "Please confirm"
 
-#: ui.py:150
+#: ui.py:181
 msgid "Do you really want to delete this item?"
 msgstr "Do you really want to delete this item?"
 
-#: ui.py:152
+#: ui.py:183
 msgid "Yes"
 msgstr "Yes"
 
-#: ui.py:153
+#: ui.py:184
 msgid "No"
 msgstr "No"
 
-#: ui.py:208
+#: ui.py:239
 msgid "On-Top"
 msgstr "On-Top"
 
-#: ui.py:209
+#: ui.py:240
 msgid "Keep app Always On Top."
 msgstr "Keep app Always On Top."
 
-#: ui.py:213
+#: ui.py:244
 msgid "Auto-Copy"
 msgstr "Auto-Copy"
 
-#: ui.py:214
+#: ui.py:245
 msgid "Whether or not to auto-copy messages."
 msgstr "Whether or not to auto-copy messages."
 
-#: ui.py:218
+#: ui.py:249
 msgid "Night-Mode"
 msgstr "Night-Mode"
 
-#: ui.py:219
+#: ui.py:250
 msgid "Use the Dark Theme."
 msgstr "Use the Dark Theme."
 
-#: ui.py:234
+#: ui.py:256
+msgid "Language"
+msgstr "Language"
+
+#: ui.py:277
 msgid "Transcribe"
 msgstr "Transcribe"
 
-#: ui.py:261
+#: ui.py:304
 msgid "History"
 msgstr "History"
 
-#: ui.py:265
+#: ui.py:308
 msgid "Setting"
 msgstr "Setting"
-
-#: ui.py:270
-msgid "Language"
-msgstr "Language"
