@@ -36,11 +36,6 @@ def listen():
       print("Speak Faster please!")
       recognized_text = listen()
 
-    except sr.UnknownValueError:
-      print("Could not understand audio")
-    except sr.RequestError as e:
-      print("Could not request results from Google Speech Recognition service; {0}".format(e))
-
     if recognized_text:
       return recognized_text
 # # Main loop
