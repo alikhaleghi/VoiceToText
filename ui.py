@@ -7,8 +7,12 @@ from flet import Theme
 import pyperclip
 import gettext
 import speech_recognition as sr
-
-el = gettext.translation('base', localedir='./lang', languages=[config.get('Settings', 'locale')])
+from os import path,sys
+bundle_dir = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
+locales_dir = path.abspath(path.join(bundle_dir, 'lang'))
+print(locales_dir)
+print(config.get('Settings', 'locale'))
+el = gettext.translation('base', localedir=locales_dir, languages=[config.get('Settings', 'locale')])
 el.install()
 _ = el.gettext
 
@@ -19,7 +23,7 @@ pyi_splash.close()
 
 def main(page: ft.Page):
   page.fonts = {
-    "IRANSansWeb": "/fonts/IRANSansWeb.ttf",
+    "IRANSansWeb": "./fonts/IRANSansWeb.ttf",
   }
 
   page.theme = Theme(font_family="IRANSansWeb")
