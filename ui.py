@@ -81,10 +81,10 @@ def main(page: ft.Page):
       whatISaid.value = text
       whatISaid.label = 'What You Said:' if whatISaid.value else 'Please click Start listening and talk.'
       
-      add_history(text)
+      id = add_history(text)
 
       history.controls.insert(0,ft.Dismissible(
-        content=ft.ListTile(title=ft.Text(f"Item {text}")),
+        content=ft.ListTile(data=id, title=ft.Text(f"{text}")),
         dismiss_direction=ft.DismissDirection.HORIZONTAL,
         background=ft.Container(bgcolor=ft.colors.GREEN),
         secondary_background=ft.Container(bgcolor=ft.colors.RED),
@@ -164,8 +164,10 @@ def main(page: ft.Page):
       e.control.confirm_dismiss(True)
 
   def handle_dismiss(e):
-    print(history.controls[0].text)
-    # history.controls.remove(e.control)
+    if(e.control.content.data):
+      delete_history(e.control.content.data)
+    print(history)
+    history.controls.remove(e.control)
     page.update()
 
   def handle_update(e: ft.DismissibleUpdateEvent):
@@ -177,8 +179,8 @@ def main(page: ft.Page):
   history = ft.ListView(
     controls=[
       ft.Dismissible(
-        data=i[0],
-        content=ft.ListTile( title=ft.Text(f"{i[1]}")),
+        
+        content=ft.ListTile(data=i[0], title=ft.Text(f"{i[1]}")),
         dismiss_direction=ft.DismissDirection.HORIZONTAL,
         background=ft.Container(bgcolor=ft.colors.GREEN),
         secondary_background=ft.Container(bgcolor=ft.colors.RED),
@@ -259,6 +261,18 @@ def main(page: ft.Page):
         text="Setting",
         icon=ft.icons.SETTINGS,
         content=ft.Column([
+          ft.Container(
+            ft.Dropdown( 
+              label="Language",
+              options=[
+                ft.dropdown.Option("fa-IR"),
+                ft.dropdown.Option("en-US"),
+                ft.dropdown.Option("es-AR"),
+              ],
+              on_change=set_lang
+            ),
+            padding=20,
+          ),
           AlwaysOnTop,
           AutoCopy,
           ThemeMode
