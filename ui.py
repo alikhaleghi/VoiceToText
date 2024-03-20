@@ -3,15 +3,24 @@ from config import config, saveSetting
 from history import get_history, add_history, delete_history
 from start_listening import listen, speak
 import flet as ft
+from flet import Theme
 import pyperclip
-
+import gettext
+el = gettext.translation('base', localedir='./lang', languages=['fa'])
+el.install()
+_ = el.gettext
 # import pyi_splash 
 # pyi_splash.update_text("PyInstaller is a great software!")
 # pyi_splash.update_text("Second time's a charm!") 
 # pyi_splash.close()
 
 def main(page: ft.Page):
-  page.title = "Voice To Text (AK)"
+  page.fonts = {
+    "IRANSansWeb": "/fonts/IRANSansWeb.ttf",
+  }
+
+  page.theme = Theme(font_family="IRANSansWeb")
+  page.title = _("Voice To Text (AK)")
   page.window_width = 400
   page.window_height = 600
   if(config.get('Settings', 'alwaysontop') == 'active'):
@@ -70,7 +79,7 @@ def main(page: ft.Page):
   def startRecording(e):
     page.splash = ft.ProgressBar()
     btn.disabled = True
-    btn.text = "Listening..."
+    btn.text = _("Listening...")
     
     page.update()
     text = listen()
@@ -79,7 +88,7 @@ def main(page: ft.Page):
     
     if text:
       whatISaid.value = text
-      whatISaid.label = 'What You Said:' if whatISaid.value else 'Please click Start listening and talk.'
+      whatISaid.label = _('What You Said:') if whatISaid.value else _('Please click Start listening and talk.')
       
       id = add_history(text)
 
@@ -104,11 +113,11 @@ def main(page: ft.Page):
         print("Text copied to clipboard!")
     
     page.splash = None
-    btn.text = "Start Listening..."
+    btn.text = _("Start Listening...")
     btn.disabled = False
     page.update() 
  
-  btn = ft.FilledButton(('Start Listening!'),  on_click=startRecording)
+  btn = ft.FilledButton(_("Start Listening..."),  on_click=startRecording)
 
   dd = ft.Dropdown( 
     label="Language",
@@ -129,14 +138,12 @@ def main(page: ft.Page):
     # value=config.get('Settings', "language"),
   )
 
-  whatISaid.label = 'What You Said:' if whatISaid.value else 'Please click Start listening and talk.'
+  whatISaid.label = _('What You Said:') if whatISaid.value else _('Please click Start listening and talk.')
 
 
 
   def close_yes_dlg(e):
     page.close_dialog()
-    print(dlg)
-    print(dlg.data)
     dlg.data.confirm_dismiss(True)
 
   def close_no_dlg(e):
@@ -145,11 +152,11 @@ def main(page: ft.Page):
 
   dlg = ft.AlertDialog(
     modal=True,
-    title=ft.Text("Please confirm"),
-    content=ft.Text("Do you really want to delete this item?"),
+    title=ft.Text(_("Please confirm")),
+    content=ft.Text(_("Do you really want to delete this item?")),
     actions=[
-      ft.TextButton("Yes", on_click=close_yes_dlg),
-      ft.TextButton("No", on_click=close_no_dlg),
+      ft.TextButton(_("Yes"), on_click=close_yes_dlg),
+      ft.TextButton(_("No"), on_click=close_no_dlg),
     ],
     actions_alignment=ft.MainAxisAlignment.CENTER,
   )
@@ -158,17 +165,20 @@ def main(page: ft.Page):
     if e.direction == ft.DismissDirection.END_TO_START: # right-to-left slide
       # save current dismissible to dialog's data
       dlg.data = e.control
-      print(e.page)
+      
       page.show_dialog(dlg)
     else: # left-to-right slide
       e.control.confirm_dismiss(True)
 
   def handle_dismiss(e):
-    if(e.control.content.data):
-      delete_history(e.control.content.data)
-    print(history)
-    history.controls.remove(e.control)
-    page.update()
+    if(dlg.data):
+        
+      if(e.control.content.data):
+        delete_history(e.control.content.data)
+      
+      history.controls.remove(e.control)
+      dlg.data = None
+      page.update() 
 
   def handle_update(e: ft.DismissibleUpdateEvent):
     e
@@ -201,18 +211,18 @@ def main(page: ft.Page):
 
   AlwaysOnTop = ft.CupertinoListTile(
     leading=(AlwaysOnTopCheck:=ft.Checkbox(label="", value=True if config.get('Settings', 'alwaysontop') == 'active' else False,on_change=set_on_top)) ,
-    title=ft.Text("On-Top"),
-    subtitle=ft.Text("Keep app Always On Top."),
+    title=ft.Text(_("On-Top")),
+    subtitle=ft.Text(_("Keep app Always On Top.")),
   )
   AutoCopy = ft.CupertinoListTile(
     leading=ft.Checkbox(label="", value=True if config.get('Settings', 'autocopy') == 'active' else False,on_change=set_auto_copy) ,
-    title=ft.Text("Auto-Copy"),
-    subtitle=ft.Text("Whether or not to auto-copy messages."),
+    title=ft.Text(_("Auto-Copy")),
+    subtitle=ft.Text(_("Whether or not to auto-copy messages.")),
   )
   ThemeMode = ft.CupertinoListTile(
     leading=ft.Checkbox(label="", value=True if config.get('Settings', 'theme') == 'dark' else False, on_change=switch_theme_mode) ,
-    title=ft.Text("Night-Mode"),
-    subtitle=ft.Text("Use the Dark Theme."),
+    title=ft.Text(_("Night-Mode")),
+    subtitle=ft.Text(_("Use the Dark Theme.")),
     
   )
 
@@ -227,7 +237,7 @@ def main(page: ft.Page):
     animation_duration=500,
     tabs=[
       ft.Tab(
-        text="Transcribe",
+        text=_("Transcribe"),
         icon=ft.icons.MIC,
         content=ft.Container(
           padding=10,
@@ -254,16 +264,16 @@ def main(page: ft.Page):
       ),
       ft.Tab(
         icon=ft.icons.HISTORY,
-        text="History",
+        text=_("History"),
         content= history
       ),
       ft.Tab(
-        text="Setting",
+        text=_("Setting"),
         icon=ft.icons.SETTINGS,
         content=ft.Column([
           ft.Container(
             ft.Dropdown( 
-              label="Language",
+              label=_("Language"),
               options=[
                 ft.dropdown.Option("fa-IR"),
                 ft.dropdown.Option("en-US"),
